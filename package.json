@@ -1,7 +1,7 @@
 {
   "name": "react-large-virtualized-list",
-  "version": "0.0.0-development",
-  "description": "react-large-virtualized-list React component",
+  "version": "1.0.0-development",
+  "description": "React component for efficiently rendering large lists (Only renders items visible in the current viewport)",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
