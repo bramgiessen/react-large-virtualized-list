@@ -2,7 +2,7 @@
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+[![codecov](https://codecov.io/gh/bramgiessen/react-large-virtualized-list/branch/main/graph/badge.svg)](https://codecov.io/gh/bramgiessen/react-large-virtualized-list)
 
 Describe react-large-virtualized-list here.
 
@@ -12,4 +12,4 @@ Describe react-large-virtualized-list here.
 [npm-badge]: https://img.shields.io/npm/v/react-large-virtualized-list.png?style=flat-square
 [npm]: https://www.npmjs.org/package/react-large-virtualized-list
 
-[![codecov](https://codecov.io/gh/bramgiessen/react-large-virtualized-list/branch/main/graph/badge.svg)](https://codecov.io/gh/bramgiessen/react-large-virtualized-list)
+
