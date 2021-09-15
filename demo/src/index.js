@@ -1,15 +1,19 @@
-import React, {Component} from 'react'
-import {render} from 'react-dom'
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+import { VirtualizedList } from '../../src'
 
-import Example from '../../src'
-
-export default class Demo extends Component {
+// We generate some dummy list-itmes
+const dummyListItems = [...Array(100)];
+class Demo extends Component {
   render() {
     return <div>
-      <h1>react-large-virtualized-list Demo</h1>
-      <Example/>
+      <h1>VirtualizedList Demo</h1>
+      <VirtualizedList
+        items={dummyListItems}
+        itemHeight={100}
+        renderItem={(item, style, index) =>  <li key={index} style={style}>{`Item ${index}`}</li>}
+      />
     </div>
   }
 }
-
-render(<Demo/>, document.querySelector('#demo'))
+render(<Demo />, document.querySelector('#demo'))

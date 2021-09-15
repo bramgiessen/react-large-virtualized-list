@@ -1,0 +1,7 @@
+.virtualized-list {
+   position: absolute;
+   height: 200px;
+   width: 300px;
+   overflow-y: auto;
+   overflow-x: hidden;
+  }
