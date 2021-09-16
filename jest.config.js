@@ -8,14 +8,14 @@ module.exports = {
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.jsx?$",
     "moduleFileExtensions": ["js", "json", "jsx", "node"],
     "moduleNameMapper": {'^.+\\.(css|less)$': '<rootDir>/CSSStub.js'},
-    "coverageThreshold": {
-        "global": {
-            "branches": 30,
-            "functions": 90,
-            "lines": 90,
-            "statements": 90
-        }
-    },
+    // "coverageThreshold": {
+    //     "global": {
+    //         "branches": 30,
+    //         "functions": 90,
+    //         "lines": 90,
+    //         "statements": 90
+    //     }
+    // },
     "testEnvironment": "jsdom",
     setupFilesAfterEnv: ['./rtl.setup.js']
 }

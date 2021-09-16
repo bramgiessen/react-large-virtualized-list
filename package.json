@@ -15,7 +15,7 @@
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
-    "test": "jest --watch --no-cache",
+    "test": "jest --no-cache",
     "test:coverage": "jest --coverage",
     "open:coverage": "open ./coverage/lcov-report/index.html",
     "travis-deploy-once": "travis-deploy-once --pro",
