@@ -10,7 +10,8 @@ class Demo extends Component {
       <h1>VirtualizedList Demo</h1>
       <VirtualizedList
         items={dummyListItems}
-        itemHeight={100}
+        itemHeight={50}
+        className={'custom-list'}
         renderItem={(item, style, index) =>  <li key={index} style={style}>{`Item ${index}`}</li>}
       />
     </div>

@@ -13,7 +13,7 @@ export const debounce = (func, timeout = 300) => {
 }
 
 /**
- * Ensure that 'requestAnimationFrame()' is called only once per frame
+ * Ensure that 'requestAnimationFrame()' is called only once per frame - so that we don't build up a queue of callback-methods
  * @param {Function} callback - Callback function that will be passed to requestAnimationFrame() 
  * @returns 
  */
@@ -39,13 +39,12 @@ export const requestAnimationFrameSingleRun = (callback) => {
  * @param {number} amountOfItems - Total amount of list-items available
  * @param {number} scrollTop - The scrollTop position of our virtualized list
  * @param {number} itemHeight - The height in pixels of each list-item
- * @returns 
+ * @returns {visibleStartIndex: number, visibleEndIndex: number} - Object representing the start & end indexes of the visible list-items
  */
 export const calculateVisibleListState = (listHeight, amountOfItems, scrollTop, itemHeight) => {
     let state = {
         visibleStartIndex: 0,
         visibleEndIndex: 0,
-        visibleItems: []
     }
 
     if (!listHeight || !itemHeight) {
