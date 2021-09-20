@@ -37,26 +37,28 @@ export const requestAnimationFrameSingleRun = (callback) => {
  * Calculate the start & end-indexes of the list-items that should be rendered given the current scroll-position of our virtual-list
  * @param {number} listHeight - Height of our virtualized list in pixels
  * @param {number} amountOfItems - Total amount of list-items available
+ * @param {number} overscanRowCount - Amount of items / rows we want to render before & after our visible items / rows
  * @param {number} scrollTop - The scrollTop position of our virtualized list
  * @param {number} itemHeight - The height in pixels of each list-item
- * @returns {visibleStartIndex: number, visibleEndIndex: number} - Object representing the start & end indexes of the visible list-items
+ * @returns {renderedStartIndex: number, renderedEndIndex: number} - Object representing the start & end indexes of the rendered list-items
  */
-export const calculateVisibleListState = (listHeight, amountOfItems, scrollTop, itemHeight) => {
+export const calculateRenderedItemsState = (listHeight, amountOfItems, overscanRowCount, scrollTop, itemHeight) => {
     let state = {
-        visibleStartIndex: 0,
-        visibleEndIndex: 0,
+        renderedStartIndex: 0,
+        renderedEndIndex: 0,
     }
 
     if (!listHeight || !itemHeight) {
         return state;
     }
 
-    // Calculate which elements we should render, given the current scroll-position in the list
+    // -- Calculate which elements we should render, given the current scroll-position in the list
     const visibleItemsCount = Math.ceil(listHeight / itemHeight) + 1;
-    state.visibleStartIndex = Math.max(0, Math.floor(scrollTop / itemHeight));
-    state.visibleEndIndex = Math.min(
+    const visibleStartIndex = Math.max(0, Math.floor(scrollTop / itemHeight));
+    state.renderedStartIndex = Math.max(0, visibleStartIndex - overscanRowCount);
+    state.renderedEndIndex = Math.min(
         amountOfItems - 1, // don't render past the end of the list
-        (state.visibleStartIndex + visibleItemsCount) - 1
+        (visibleStartIndex + visibleItemsCount + overscanRowCount) - 1
     );
 
     return state;

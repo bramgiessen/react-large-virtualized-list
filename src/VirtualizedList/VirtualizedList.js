@@ -1,20 +1,19 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
-import { debounce, requestAnimationFrameSingleRun, calculateVisibleListState } from '../utils.js';
+import { debounce, requestAnimationFrameSingleRun, calculateRenderedItemsState } from '../utils.js';
 
-const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, itemHeight, items, renderItem }) => {
+const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, overscanRowCount, itemHeight, items, renderItem }) => {
   const innerHeight = items.length * itemHeight;
   const TagName = `${wrapperTagName}`;
   const wrapperElRef = useRef();
   const [wrapperElHeight, setWrapperElHeight] = useState(0);
-  const [visibleListState, setVisibleListState] = useState({
-    visibleStartIndex: 0,
-    visibleEndIndex: 0,
-    visibleItems: []
+  const [renderedItemsState, setRenderedItemsState] = useState({
+    renderedStartIndex: 0,
+    renderedEndIndex: 0
   });
-  // For better performance, we create a 'debounced' version of our setVisibleListState() method, which will run only once per animation-frame
-  const setVisibleListStateDebounced = requestAnimationFrameSingleRun(setVisibleListState);
+  // For better performance, we create a 'debounced' version of our setRenderedItemsState() method, which will run only once per animation-frame
+  const setVisibleListStateDebounced = requestAnimationFrameSingleRun(setRenderedItemsState);
 
   /**
    * Whenever this component mounts, we store the height of our list-wrapper-element
@@ -37,23 +36,23 @@ const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, itemHeight, 
   }, [])
 
   /**
-   * When the height of our list changes, we need to re-calculate which list-items should be visible
+   * When the height of our list changes, we need to re-calculate which list-items should be rendered
    */
   useEffect(() => {
     const { scrollTop } = wrapperElRef.current;
-    const visibleListState = calculateVisibleListState(wrapperElHeight, items.length, scrollTop, itemHeight);
-    setVisibleListStateDebounced(visibleListState);
+    const renderedItemsState = calculateRenderedItemsState(wrapperElHeight, items.length, overscanRowCount, scrollTop, itemHeight);
+    setVisibleListStateDebounced(renderedItemsState);
   }, [wrapperElHeight])
 
   /**
    * Handle the onScroll event of our virtualized list
-   * Here, we want to recalculate which list-items should be visible while scrolling
+   * Here, we want to recalculate which list-items should be rendered while scrolling
    * @param {WheelEvent} event - The event object passed by the onScroll event
    */
   const onScroll = (event) => {
     const { scrollTop } = wrapperElRef.current;
-    const visibleListState = calculateVisibleListState(wrapperElHeight, items.length, scrollTop, itemHeight);
-    setVisibleListStateDebounced(visibleListState);
+    const renderedItemsState = calculateRenderedItemsState(wrapperElHeight, items.length, overscanRowCount, scrollTop, itemHeight);
+    setVisibleListStateDebounced(renderedItemsState);
   }
 
   /**
@@ -66,19 +65,19 @@ const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, itemHeight, 
   };
 
   /**
-   * Returns an array containing list-items that should be visible given the current scroll-position in our list
-   * @returns {array} - Array containing (rendered) list-items which should visible given the current scroll-position in our list
+   * Returns an array containing list-items that should be rendered given the current scroll-position in our list
+   * @returns {array} - Array containing (rendered) list-items
    */
-  const renderVisibleItems = () => {
-    const { visibleStartIndex, visibleEndIndex } = visibleListState;
-    let visibleItems = [];
-    for (let i = visibleStartIndex; i <= visibleEndIndex; i++) {
+  const renderListItems = () => {
+    const { renderedStartIndex, renderedEndIndex } = renderedItemsState;
+    let renderedItems = [];
+    for (let i = renderedStartIndex; i <= renderedEndIndex; i++) {
       const style = {
         position: 'absolute', top: `${i * itemHeight}px`, height: `${itemHeight}px`, width: '100%'
       }
-      visibleItems.push(renderItem(items[i], style, i));
+      renderedItems.push(renderItem(items[i], style, i));
     }
-    return visibleItems;
+    return renderedItems;
   };
 
   return (
@@ -88,7 +87,7 @@ const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, itemHeight, 
       style={wrapperStyle}
       onScroll={onScroll}>
       <div className='inner-wrapper' style={{ position: "relative", height: `${innerHeight}px` }}>
-        {renderVisibleItems()}
+        {renderListItems()}
       </div>
     </TagName>
   );
@@ -97,6 +96,7 @@ const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, itemHeight, 
 VirtualizedList.propTypes = {
   itemHeight: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
+  overscanRowCount: PropTypes.number,
   renderItem: PropTypes.func,
   wrapperTagName: PropTypes.string,
   className: PropTypes.string,
@@ -104,6 +104,7 @@ VirtualizedList.propTypes = {
 };
 
 VirtualizedList.defaultProps = {
+  overscanRowCount: 0,
   renderItem: (item, style, index) => <li key={index} style={style}>{`Item ${index}`}</li>,
   wrapperTagName: 'ul',
   className: '',

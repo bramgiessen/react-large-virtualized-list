@@ -11,6 +11,7 @@ class Demo extends Component {
       <VirtualizedList
         items={dummyListItems}
         itemHeight={50}
+        overscanRowCount={10}
         className={'custom-list'}
         renderItem={(item, style, index) =>  <li key={index} style={style}>{`Item ${index}`}</li>}
       />

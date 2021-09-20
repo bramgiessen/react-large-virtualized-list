@@ -1,4 +1,4 @@
-import { debounce, requestAnimationFrameSingleRun, calculateVisibleListState } from './utils'
+import { debounce, requestAnimationFrameSingleRun, calculateRenderedItemsState } from './utils'
 describe('debounce', () => {
   let func;
   let debouncedFunc;
@@ -63,15 +63,24 @@ describe('requestAnimationFrameSingleRun', () => {
 });
 
 
-describe('calculateVisibleListState', () => {
+describe('calculateRenderedItemsState', () => {
   it('Should correctly calculate which list-items should be visible', () => {
-    // Given a container with a height of 200px, 10 items, a scrollTop of 0 and an item-height of 50px we expect the first 5 list-items to be visible
-    expect(calculateVisibleListState(200, 10, 0, 50)).toEqual({ visibleStartIndex: 0, visibleEndIndex: 4 });
+    // Given a container with a height of 200px, 10 items, a scrollTop of 0 and an item-height of 50px we expect the first 5 list-items to be rendered
+    expect(calculateRenderedItemsState(200, 10, 0, 0, 50)).toEqual({ renderedStartIndex: 0, renderedEndIndex: 4 });
 
-    // Given a container with a height of 200px, 10 items, a scrollTop of 100 and an item-height of 50px we expect items at index 2 until 4 to be visible
-    expect(calculateVisibleListState(200, 10, 100, 50)).toEqual({ visibleStartIndex: 2, visibleEndIndex: 6 });
+    // Given a container with a height of 200px, 10 items, a scrollTop of 100 and an item-height of 50px we expect items at index 2 until 4 to be rendered
+    expect(calculateRenderedItemsState(200, 10, 0, 100, 50)).toEqual({ renderedStartIndex: 2, renderedEndIndex: 6 });
 
-    // Given a container with a height of 200px, 10 items, a scrollTop of 400 and an item-height of 50px we expect only the last 2 items to be visible
-    expect(calculateVisibleListState(200, 10, 400, 50)).toEqual({ visibleStartIndex: 8, visibleEndIndex: 9 });
+    // Given a container with a height of 200px, 10 items, a scrollTop of 400 and an item-height of 50px we expect only the last 2 items to be rendered
+    expect(calculateRenderedItemsState(200, 10, 0, 400, 50)).toEqual({ renderedStartIndex: 8, renderedEndIndex: 9 });
+  });
+
+  it('Should render the correct amount of items when specifying the overscan prop', () => {
+    // When specifying an overscan value of 10, we expect 10 items to be rendered beyond our currently visible viewport (if we have enough list-items to render)
+    expect(calculateRenderedItemsState(200, 100, 10, 0, 50)).toEqual({ renderedStartIndex: 0, renderedEndIndex: 14 });
+
+    // When specifying an overscan value of 10, but we only have 12 list items in total: we expect 6 items to be rendered beyond our currently visible viewport
+    // (We should not render more list-items than available)
+    expect(calculateRenderedItemsState(200, 12, 10, 0, 50)).toEqual({ renderedStartIndex: 0, renderedEndIndex: 11 });
   });
 })
