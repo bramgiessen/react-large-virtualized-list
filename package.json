@@ -15,7 +15,7 @@
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "start-storybook",
-    "storybook":  "start-storybook",
+    "storybook": "start-storybook",
     "test": "jest --no-cache",
     "test:coverage": "jest --coverage",
     "open:coverage": "open ./coverage/lcov-report/index.html",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
+    "@storybook/addon-essentials": "^6.3.8",
     "@storybook/react": "^6.3.8",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.0",
@@ -42,6 +43,7 @@
     "react-dom": "^17.0.2",
     "react-testing-library": "^8.0.1",
     "semantic-release": "^17.4.7",
+    "storybook-css-modules-preset": "^1.1.1",
     "travis-deploy-once": "^5.0.7"
   },
   "author": "",

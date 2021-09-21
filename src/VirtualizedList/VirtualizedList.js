@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
 import { debounce, requestAnimationFrameSingleRun, calculateRenderedItemsState } from '../utils.js';
 
 const VirtualizedList = ({ wrapperTagName, wrapperStyle, className, overscanRowCount, itemHeight, items, renderItem }) => {
