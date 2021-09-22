@@ -75,8 +75,10 @@ The component accepts the following props:
 * `items` (`array`, required) - array of all list items.
 * `itemHeight` (`number`, required) - the height of a list-item in pixels.
 * `wrapperTagName` (`string`, default: `[]`) - Tag-name used for the root-element of the component.
-* `renderItem` (`function`, default: `(item, style, index) => <li key={index} style={style}>{Item ${index}}</li>`) - 
-    The function that receives an item and a style-object as param and renders a single list item. **Note: Every rendered list-item must have the passed `styles`   object applied in order to render correctly!**
+* `renderItem` 
+   (`function`, default: `(item, style, index) => <li key={index} style={style}>{Item ${index}}</li>`) - 
+   The function that receives an item and a style-object as param and renders a single list item. 
+   **Note: Every rendered list-item must have the passed `styles`   object applied in order to render correctly!**
 * `overscanRowCount` (`number`, default: `0`) - the number of items that may be rendered before and after the visible part of the list.
 * `wrapperStyle` (`object`, default: `{}`) - Object containing css-styles that should be applied to the root-element of the component
 * `className` (`string`, default: `''`) - Classname that will be applied to the root-element of the component
