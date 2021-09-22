@@ -56,10 +56,11 @@ const Template = args => <VirtualizedList {...args} />;
 export const HundredItems = Template.bind({});
 HundredItems.args = {
     wrapperTagName: 'div',
-    items: generateListItems(100),
     itemHeight: 50,
+    overscanRowCount: 10,
     className: styles.VirtualizedList,
-    renderItem: renderListItem
+    renderItem: renderListItem,
+    items: generateListItems(100),
 };
 
 export const TenThousandItems = Template.bind({});
@@ -72,10 +73,4 @@ export const HundredThousandItems = Template.bind({});
 HundredThousandItems.args = {
     ...HundredItems.args,
     items: generateListItems(100000),
-};
-
-export const ThreeHundredThousandItems = Template.bind({});
-ThreeHundredThousandItems.args = {
-    ...HundredItems.args,
-    items: generateListItems(300000),
 };
