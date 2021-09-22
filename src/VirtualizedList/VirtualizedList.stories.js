@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './VirtualizedList.stories.module.css';
-import { VirtualizedList } from './index';
+import VirtualizedList from './VirtualizedList';
 
 // ---- Util functions
 const random_rgb = () => {
